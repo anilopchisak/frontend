@@ -2,10 +2,13 @@ import {makeAutoObservable} from "mobx";
 import {LOADING_STATUS} from "./storeUtils";
 import {fetchOrders, postOrder} from "../http/OrderAPI";
 import {fetchCustomer} from "../http/CustomerAPI";
+import {fetchPaymentTypes} from "../http/PaymentAPI";
 
 class OrderStore {
-    orderMakingStatus = LOADING_STATUS.IDLE;
+    orderMakingStatus = LOADING_STATUS.IDLE
+    paymentTypesLoadingStatus = LOADING_STATUS.IDLE
 
+    _availablePaymentTypes = []
     _cart = []
     _paymentType = 'QR-code'
     _username = ''
@@ -21,6 +24,10 @@ class OrderStore {
 
     get paymentType() {
         return this._paymentType
+    }
+
+    get availablePaymentTypes() {
+        return this._availablePaymentTypes
     }
 
     get username() {
@@ -100,6 +107,22 @@ class OrderStore {
             this.orderMakingStatus = LOADING_STATUS.SUCCESS
         } catch(err) {
             this.orderMakingStatus = LOADING_STATUS.ERROR
+            console.log(err)
+        }
+    }
+
+    async fetchPaymentTypes() {
+        this.paymentTypesLoadingStatus = LOADING_STATUS.LOADING
+
+        try {
+            const result = await fetchPaymentTypes()
+
+            this._availablePaymentTypes = result.map(type => type.payment_type)
+            this._paymentType = this._availablePaymentTypes[0]
+
+            this.paymentTypesLoadingStatus = LOADING_STATUS.SUCCESS
+        } catch(err) {
+            this.paymentTypesLoadingStatus = LOADING_STATUS.ERROR
             console.log(err)
         }
     }

@@ -15,8 +15,19 @@ const OrderForm = observer(() => {
     useEffect(() => {
         if (!formRef.current) return
 
-        setIsValid(formRef.current.checkValidity() && order.cart.length > 0)
-    }, [order.username, order.email, order.paymentType, order.cart.length]);
+        setIsValid(
+            formRef.current.checkValidity() &&
+            order.cart.length > 0 &&
+            order.paymentTypesLoadingStatus === LOADING_STATUS.SUCCESS
+        )
+
+    }, [order.username, order.email, order.paymentType, order.cart.length, order.paymentTypesLoadingStatus]);
+
+    useEffect(() => {
+        if ([LOADING_STATUS.LOADING, LOADING_STATUS.SUCCESS].includes(order.paymentTypesLoadingStatus)) return
+
+        order.fetchPaymentTypes()
+    }, [])
 
     const handleSubmit = evt => {
         evt.preventDefault()
@@ -54,10 +65,9 @@ const OrderForm = observer(() => {
                 <Form.Label>Payment type</Form.Label>
                 <br />
                 <Form.Select className="mb-3" selected={order.paymentType} onSelect={(evt) => order.setPaymentType(evt.target.value)}>
-                    <option value="QR-code">QR-code</option>
-                    <option value="Card">Card</option>
-                    <option value="SberPay">SberPay</option>
-                    <option value="GooglePay">GooglePay</option>
+                    {
+                        order.availablePaymentTypes.map(type => <option value={type}>{type}</option>)
+                    }
                 </Form.Select>
             </Form.Group>
 
