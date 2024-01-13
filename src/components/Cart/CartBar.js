@@ -13,7 +13,7 @@ const CartBar = observer(() => {
                 order.cart.map(product => <CartItem product={product} key={product.product_name}/>)
             }
 
-            <p>Total cost: {order.cart.reduce((acc, cur) => acc + cur.count * cur.final_cost, 0).toFixed(2)} $</p>
+            <b>Total cost: {order.cart.reduce((acc, cur) => acc + cur.count * cur.final_cost, 0).toFixed(2)} $</b>
         </div>
     );
 });

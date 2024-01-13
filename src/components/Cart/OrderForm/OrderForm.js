@@ -1,9 +1,10 @@
 import React, {createRef, useContext, useEffect, useRef, useState} from 'react';
 import {Button, DropdownButton, Form, Dropdown} from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import {Context} from "../../index";
+import {Context} from "../../../index";
 import {observer} from "mobx-react-lite";
-import {LOADING_STATUS} from "../../store/storeUtils";
+import {LOADING_STATUS} from "../../../store/storeUtils";
+
+import s from './OrderForm.module.css'
 
 const OrderForm = observer(() => {
     const {order} = useContext(Context)
@@ -72,7 +73,10 @@ const OrderForm = observer(() => {
             </Form.Group>
 
             {
-                order.orderMakingStatus === LOADING_STATUS.ERROR && 'Error'
+                order.orderMakingStatus === LOADING_STATUS.ERROR &&
+                    <p className={s.error}>
+                        Error: {order.errorMessage}
+                    </p>
             }
 
             <Button variant="primary"

@@ -8,6 +8,8 @@ class OrderStore {
     orderMakingStatus = LOADING_STATUS.IDLE
     paymentTypesLoadingStatus = LOADING_STATUS.IDLE
 
+    errorMessage = ''
+
     _availablePaymentTypes = []
     _cart = []
     _paymentType = 'QR-code'
@@ -96,6 +98,17 @@ class OrderStore {
         this.orderMakingStatus = LOADING_STATUS.LOADING
 
         try {
+
+            const customer = await fetchCustomer({email: this._email})
+
+            if (!customer) {
+                throw new Error('User not exists')
+            }
+
+            if (customer.customer_name !== this._username) {
+                throw new Error('Invalid name')
+            }
+
             const result = await postOrder({
                 customer: this._username,
                 payment_type: this._paymentType,
@@ -104,9 +117,14 @@ class OrderStore {
             })
 
             this._cart = []
+            this._paymentType = this._availablePaymentTypes[0]
+            this._email = ''
+            this._username = ''
+
             this.orderMakingStatus = LOADING_STATUS.SUCCESS
         } catch(err) {
             this.orderMakingStatus = LOADING_STATUS.ERROR
+            this.errorMessage = err.message
             console.log(err)
         }
     }
