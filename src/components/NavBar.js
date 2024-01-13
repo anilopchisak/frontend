@@ -4,21 +4,41 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {MENU_ROUTE} from "../utils/consts";
-import {NavLink} from "react-bootstrap";
+// import {NavLink} from "react-bootstrap";
+import {Link} from "react-router-dom";
+import {publicRoutes} from "../routes";
+
+const NavLink = ({ children, to, isLogo}) => {
+    return (
+        <Nav.Link className="ml-2">
+            <Link to={to}>
+                <span style={{color: isLogo ? 'black' : 'grey', fontWeight: isLogo ? 'bold' : 'light'}}>
+                    {children}
+                </span>
+            </Link>
+        </Nav.Link>
+    )
+}
 
 const NavBar = () => {
-    return(
-        <>
-          <Navbar bg="light" data-bs-theme="light">
+    return (
+        <Navbar bg="light" data-bs-theme="light">
             <Container>
-                <Nav.Link style={{color:'black', fontWeight:'bold'}} href="..">Zoo Cafe</Nav.Link>
+                <NavLink to='/' isLogo>
+                    Zoo Cafe
+                </NavLink>
                 <Nav className="me-auto">
-                    <Nav.Link href="..">Menu</Nav.Link>
-                    <Nav.Link href="/order_archive" className="ml-2">Order Archive</Nav.Link>
+                    {
+                        publicRoutes.map(route => (
+                            route.title &&
+                            <NavLink to={route.path} key={route.title}>
+                                {route.title}
+                            </NavLink>
+                        ))
+                    }
                 </Nav>
             </Container>
-          </Navbar>
-        </>
+        </Navbar>
     );
 };
 

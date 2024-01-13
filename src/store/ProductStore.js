@@ -1,24 +1,30 @@
 import {makeAutoObservable} from "mobx";
+import {fetchProducts} from "../http/ProductAPI";
+import {LOADING_STATUS} from "./storeUtils";
 
 class ProductStore {
+    productsLoadingStatus = LOADING_STATUS.IDLE;
+    _product = []
 
     constructor() {
-        this._product = [
-            {id: 1, name: 'Kiwi', descr:'Bright tropical taste of kiwi and cherry glaze that complements it so well.', cost: '1,0', img: 'C:/Archive/Study/Учеба/АИС/lr4/mint.jpg'},
-            {id: 2, name: 'Kiwi', descr:'Bright tropical taste of kiwi and cherry glaze that complements it so well.', cost: '1,0', img: 'C:/Archive/Study/Учеба/АИС/lr4/mint.jpg'},
-            {id: 3, name: 'Kiwi', descr:'Bright tropical taste of kiwi and cherry glaze that complements it so well.', cost: '1,0', img: 'C:/Archive/Study/Учеба/АИС/lr4/mint.jpg'},
-            {id: 4, name: 'Kiwi', descr:'Bright tropical taste of kiwi and cherry glaze that complements it so well.', cost: '1,0', img: 'C:/Archive/Study/Учеба/АИС/lr4/mint.jpg'},
-            {id: 5, name: 'Kiwi', descr:'Bright tropical taste of kiwi and cherry glaze that complements it so well.', cost: '1,0', img: 'C:/Archive/Study/Учеба/АИС/lr4/mint.jpg'},
-            {id: 6, name: 'Kiwi', descr:'Bright tropical taste of kiwi and cherry glaze that complements it so well.', cost: '1,0', img: 'C:/Archive/Study/Учеба/АИС/lr4/mint.jpg'},
-            {id: 7, name: 'Kiwi', descr:'Bright tropical taste of kiwi and cherry glaze that complements it so well.', cost: '1,0', img: 'C:/Archive/Study/Учеба/АИС/lr4/mint.jpg'},
-            {id: 8, name: 'Kiwi', descr:'Bright tropical taste of kiwi and cherry glaze that complements it so well.', cost: '1,0', img: 'C:/Archive/Study/Учеба/АИС/lr4/mint.jpg'},
-            {id: 9, name: 'Kiwi', descr:'Bright tropical taste of kiwi and cherry glaze that complements it so well.', cost: '1,0', img: 'C:/Archive/Study/Учеба/АИС/lr4/mint.jpg'},
-        ]
         makeAutoObservable(this)
     }
 
     get product() {
         return this._product
+    }
+
+    async fetchProducts() {
+
+        this.productsLoadingStatus = LOADING_STATUS.LOADING
+
+        try {
+            this._product = await fetchProducts()
+            this.productsLoadingStatus = LOADING_STATUS.SUCCESS
+        } catch(err) {
+            console.log('Products fetching err');
+            this.productsLoadingStatus = LOADING_STATUS.ERROR
+        }
     }
 
 }

@@ -2,6 +2,7 @@ import React, {createContext} from 'react';
 import ReactDOM from "react-dom/client";
 import App from './App';
 import ProductStore from "./store/ProductStore";
+import OrderArchiveStore from "./store/OrderArchiveStore";
 import OrderStore from "./store/OrderStore";
 
 export const Context = createContext(null)
@@ -11,7 +12,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <Context.Provider value={{
         product: new ProductStore(),
-        order: new OrderStore(),
+        orderArchive: new OrderArchiveStore(),
+        order: new OrderStore()
     }}>
         <App />
     </Context.Provider>

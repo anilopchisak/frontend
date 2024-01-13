@@ -6,11 +6,13 @@ import Menu from "./pages/menu.js";
 export const publicRoutes = [
     {
         path: MENU_ROUTE,
-        element: <Menu/>
+        element: <Menu/>,
+        title: 'Menu'
     },
     {
         path: ARCHIVE_ROUTE,
-        element: <OrderArchive/>
+        element: <OrderArchive/>,
+        title: 'Order Archive'
     },
     {
         path: DETAIL_ROUTE +'/:id',

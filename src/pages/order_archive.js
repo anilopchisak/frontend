@@ -1,8 +1,9 @@
 import React from 'react';
 import {Col, Row} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import OrderSearch from "../components/OrderSearch";
-import OrderList from "../components/OrderList";
+import OrderSearch from "../components/OrdersArchive/OrderSearch";
+import OrderList from "../components/OrdersArchive/OrderList";
+import {LOADING_STATUS} from "../store/storeUtils";
 
 function OrderArchive() {
   return (
