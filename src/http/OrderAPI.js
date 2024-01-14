@@ -10,3 +10,8 @@ export const postOrder = async ({customer, products, date_time, payment_type}) =
     const {data} = await $host.post(`order`, { customer, products, date_time, payment_type })
     return data
 };
+
+export const getOrderDetails = async ({orderId}) => {
+    const {data} = await $host.get(`order/orders/${orderId}`);
+    return data
+}

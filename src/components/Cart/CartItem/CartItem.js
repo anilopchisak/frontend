@@ -27,7 +27,6 @@ export const CartItem = observer(({product}) => {
                 <img src={product.img} alt="" className={s.image}/>
                 <div>
                     <p className={s.name}>{product.product_name}</p>
-                    <p className={s.description}>{product.description}</p>
                 </div>
             </div>
 

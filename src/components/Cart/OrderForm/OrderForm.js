@@ -36,9 +36,9 @@ const OrderForm = observer(() => {
     const handleSubmit = async (evt) => {
         evt.preventDefault()
 
-        await order.makeOrder()
+        const result = await order.makeOrder()
 
-        if (order.paymentTypesLoadingStatus === LOADING_STATUS.SUCCESS) {
+        if (result === LOADING_STATUS.SUCCESS) {
             navigate(ORDER_GRATITUDE)
         }
     };

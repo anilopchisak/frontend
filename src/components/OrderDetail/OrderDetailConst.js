@@ -1,12 +1,13 @@
 import React, {useContext} from 'react';
-import {Context} from "../index";
+import {Context} from "../../index";
 import OrderDetailItem from "./OrderDetailItem";
 
 const OrderDetailConst = () => {
-    const {order} = useContext(Context)
+    const {orderDetails} = useContext(Context)
+
     return (
         <div>
-            <OrderDetailItem key={order.id} order={order}/>
+            <OrderDetailItem order={orderDetails.details}/>
         </div>
     );
 };

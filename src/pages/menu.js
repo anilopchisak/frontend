@@ -10,7 +10,7 @@ function Menu() {
     <Container className="mt-5">
       <Row>
 
-          <Col md={4}>
+          <Col md={4} style={{maxHeight: '80vh', overflow: 'scroll'}}>
               <CartBar/>
               <OrderForm/>
           </Col>

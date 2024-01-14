@@ -127,6 +127,8 @@ class OrderStore {
             this.errorMessage = err.message
             console.log(err)
         }
+
+        return this.orderMakingStatus
     }
 
     async fetchPaymentTypes() {
