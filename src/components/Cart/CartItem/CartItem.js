@@ -23,8 +23,13 @@ export const CartItem = observer(({product}) => {
 
     return (
         <div className={s.wrapper}>
-            <p className={s.name}>{product.product_name}</p>
-            <p className={s.description}>{product.description}</p>
+            <div className={s.productInfo}>
+                <img src={product.img} alt="" className={s.image}/>
+                <div>
+                    <p className={s.name}>{product.product_name}</p>
+                    <p className={s.description}>{product.description}</p>
+                </div>
+            </div>
 
             <div className={s.bottom}>
                 <div className={s.counter}>

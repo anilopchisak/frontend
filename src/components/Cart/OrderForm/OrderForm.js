@@ -3,11 +3,14 @@ import {Button, DropdownButton, Form, Dropdown} from "react-bootstrap";
 import {Context} from "../../../index";
 import {observer} from "mobx-react-lite";
 import {LOADING_STATUS} from "../../../store/storeUtils";
+import {useNavigate} from 'react-router-dom'
 
 import s from './OrderForm.module.css'
+import {ORDER_GRATITUDE} from "../../../utils/consts";
 
 const OrderForm = observer(() => {
     const {order} = useContext(Context)
+    const navigate = useNavigate()
 
     const formRef = createRef()
 
@@ -30,9 +33,14 @@ const OrderForm = observer(() => {
         order.fetchPaymentTypes()
     }, [])
 
-    const handleSubmit = evt => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault()
-        order.makeOrder()
+
+        await order.makeOrder()
+
+        if (order.paymentTypesLoadingStatus === LOADING_STATUS.SUCCESS) {
+            navigate(ORDER_GRATITUDE)
+        }
     };
 
 
